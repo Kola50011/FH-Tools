@@ -18,25 +18,25 @@
             <span class="text-center">4</span>
 
 
-            <input type="number" id="C0R0" class="ring-4 ring-black" value="0">
-            <input type="number" id="C1R0" class="ring-4 ring-black" value="0">
-            <input type="number" id="C2R0" class="ring-4 ring-black" value="0">
-            <input type="number" id="C3R0" class="ring-4 ring-black" value="0">
+            <input type="text" id="C0R0" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C1R0" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C2R0" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C3R0" class="ring-4 ring-black" value="0x">
 
-            <input type="number" id="C0R1" class="ring-4 ring-black" value="0">
-            <input type="number" id="C1R1" class="ring-4 ring-black" value="0">
-            <input type="number" id="C2R1" class="ring-4 ring-black" value="0">
-            <input type="number" id="C3R1" class="ring-4 ring-black" value="0">
+            <input type="text" id="C0R1" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C1R1" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C2R1" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C3R1" class="ring-4 ring-black" value="0x">
 
-            <input type="number" id="C0R2" class="ring-4 ring-black" value="0">
-            <input type="number" id="C1R2" class="ring-4 ring-black" value="0">
-            <input type="number" id="C2R2" class="ring-4 ring-black" value="0">
-            <input type="number" id="C3R2" class="ring-4 ring-black" value="0">
+            <input type="text" id="C0R2" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C1R2" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C2R2" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C3R2" class="ring-4 ring-black" value="0x">
 
-            <input type="number" id="C0R3" class="ring-4 ring-black" value="0">
-            <input type="number" id="C1R3" class="ring-4 ring-black" value="0">
-            <input type="number" id="C2R3" class="ring-4 ring-black" value="0">
-            <input type="number" id="C3R3" class="ring-4 ring-black" value="0">
+            <input type="text" id="C0R3" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C1R3" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C2R3" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C3R3" class="ring-4 ring-black" value="0x">
         </div>
 
         <div id="output" class="mt-10">
@@ -51,17 +51,14 @@
             state[0][1] = parseInt(document.getElementById('C0R1').value)
             state[0][2] = parseInt(document.getElementById('C0R2').value)
             state[0][3] = parseInt(document.getElementById('C0R3').value)
-
             state[1][0] = parseInt(document.getElementById('C1R0').value)
             state[1][1] = parseInt(document.getElementById('C1R1').value)
             state[1][2] = parseInt(document.getElementById('C1R2').value)
             state[1][3] = parseInt(document.getElementById('C1R3').value)
-
             state[2][0] = parseInt(document.getElementById('C2R0').value)
             state[2][1] = parseInt(document.getElementById('C2R1').value)
             state[2][2] = parseInt(document.getElementById('C2R2').value)
             state[2][3] = parseInt(document.getElementById('C2R3').value)
-
             state[3][0] = parseInt(document.getElementById('C3R0').value)
             state[3][1] = parseInt(document.getElementById('C3R1').value)
             state[3][2] = parseInt(document.getElementById('C3R2').value)
@@ -110,7 +107,7 @@
             var res = ""
             for (var x = 0; x < 4; x++) {
                 for (var y = 0; y < 4; y++) {
-                    res += state[y][x] + " "
+                    res += "0x" + state[y][x].toString(16) + " "
                 }
                 res += "\n"
             }
