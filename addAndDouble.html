@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <title>Add and Double</title>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
+</head>
+
+<body>
+    <h1>Add and Double</h1>
+    <div>
+        <input id="inputNum" type="number" placeholder="Enter a number in N" style="width: 30%;" min="1" max="10000"
+            required>
+        <button onclick="generate()">Berechnen</button>
+    </div>
+    <div id="output"></div>
+</body>
+<style>
+
+</style>
+<script src="https://unpkg.com/mathjs@9.4.4/"></script>
+<script>
+    function dec2bin(dec) {
+        return (dec >>> 0).toString(2);
+    }
+
+    function generate() {
+        var inputNum = document.getElementById("inputNum").value;
+        var binaryNum = dec2bin(inputNum);
+
+        var textDarstellung = ""
+        var finalDarstellung = "P"
+
+        for (var i = 0; i < binaryNum.length; i++) {
+            var num = binaryNum.charAt(i)
+            if (num === "1") {
+                textDarstellung += "DA - "
+                if (i != 0) {
+                    finalDarstellung = "(" + finalDarstellung + ") * 2 + P"
+                }
+            } else {
+                textDarstellung += "D - "
+                if (i != 0) {
+                    finalDarstellung = "(" + finalDarstellung + ") * 2"
+                }
+            }
+        }
+
+        var outputHTML = "<div>" + binaryNum + "</div>"
+        outputHTML += "<div>" + textDarstellung + "</div>"
+        outputHTML += "<div>" + finalDarstellung + "</div>"
+        document.getElementById("output").innerHTML = outputHTML
+    }
+
+    document.getElementById("inputNum").addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+        generate()
+    }
+});
+</script>
+
+</html>

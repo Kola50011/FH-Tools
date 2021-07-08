@@ -1,14 +1,16 @@
 <html>
     <head>
-        <title>Zyklische Gruppenordnung</title>
+        <title>Zyklische Gruppenordnung (Multiplikation)</title>
         <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
     </head>
 
 <body>
     <h1>Zyklische Gruppenordnung für Z* (Multiplikation)</h1>
     <div>
+        <form onsubmit="event.preventDefault();generateTable()">
         <input id="zstern" type="number" placeholder="Enter a number Z* between 2 and 15" style="width: 30%;" min="2" max="15" required>
-        <button onclick="generateTable()">Berechnen</button>
+        <button>Berechnen</button>
+        </form>
     </div>
     <div id="output"></div>
 </body>
