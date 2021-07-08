@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Faktorisierung nach Fermat</title>
+  </head>
+  <body>
+      <h1>Primfaktorisierung mit der Methode von Fermat</h1>
+    <form onsubmit="event.preventDefault();showResults()">
+      <input id="inputNumber" type="number" placeholder="n eingeben"/>
+      <button>Berechnen</button>
+    </form>
+    <div id="output"/>
+  </body>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+      let tries = 0;
+        const MAX_TRIES = 1000;
+        let calculationStepString = [];
+
+      const showResults = () => {
+          //reset previous calculations
+          calculationStepString = [];
+          tries = 0;
+
+        const inputNumber = document.getElementById("inputNumber").value;
+
+        result = calculateFermatFactor(inputNumber, 0);
+        if(result === null){
+            document.getElementById("output").innerHTML= `<p>Konnte nach ${MAX_TRIES} Versuchen nicht faktorisieren!</p>`;
+        }
+
+        const [a,b] = result;
+
+        const htmlElementsArr = calculationStepString.map(step => `<div>${step}</div>`);
+        const htmlElements = htmlElementsArr.join("");
+
+        const stepsHeader = "<h4>Rechenschritte:</h4>";
+        const resultText = `<h3>Ergebnis: a=${a}, b=${b}, p = ${a-b}, q = ${a+b}</h3>`;
+
+        document.getElementById("output").innerHTML = stepsHeader + htmlElements + resultText;
+        MathJax.typeset();
+      }
+
+      const calculateFermatFactor = (number, a) => {
+
+        //if we didn't find it after 100 tries, chances are it cant be done at the test
+        if(tries === MAX_TRIES) return null;
+
+        if(a === 0){
+            a = Math.ceil(Math.sqrt(number));
+            calculationStepString.push(`\\(a0 = \\lceil \\sqrt{${number}} \\rceil = ${a}\\)`);
+        }
+        
+        //fermat square root;
+        b = Math.sqrt(a**2 - number);
+        calculationStepString.push(`\\(\\sqrt{${a}^2 - ${number}} = ${b}\\)`);
+        tries++;
+
+        return b % 1 === 0 ? [a,b] : calculateFermatFactor(number,++a);
+      }
+  </script>
+</html>
