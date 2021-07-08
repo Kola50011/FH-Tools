@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>AES MixCol</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="m-64">
+        <div class="grid grid-cols-4 gap-4">
+            <span class="text-center">1</span>
+            <span class="text-center">2</span>
+            <span class="text-center">3</span>
+            <span class="text-center">4</span>
+
+
+            <input type="text" id="C0R0" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C1R0" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C2R0" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C3R0" class="ring-4 ring-black" value="0x">
+
+            <input type="text" id="C0R1" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C1R1" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C2R1" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C3R1" class="ring-4 ring-black" value="0x">
+
+            <input type="text" id="C0R2" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C1R2" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C2R2" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C3R2" class="ring-4 ring-black" value="0x">
+
+            <input type="text" id="C0R3" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C1R3" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C2R3" class="ring-4 ring-black" value="0x">
+            <input type="text" id="C3R3" class="ring-4 ring-black" value="0x">
+        </div>
+
+        <div id="output" class="mt-10">
+            PLACEHOLDER
+        </div>
+    </div>
+
+    <script>
+        function getInput() {
+            var state = [[], [], [], []];  // initialise 4xNb byte-array 'state' with input [§3.4]
+            state[0][0] = parseInt(document.getElementById('C0R0').value)
+            state[0][1] = parseInt(document.getElementById('C0R1').value)
+            state[0][2] = parseInt(document.getElementById('C0R2').value)
+            state[0][3] = parseInt(document.getElementById('C0R3').value)
+            state[1][0] = parseInt(document.getElementById('C1R0').value)
+            state[1][1] = parseInt(document.getElementById('C1R1').value)
+            state[1][2] = parseInt(document.getElementById('C1R2').value)
+            state[1][3] = parseInt(document.getElementById('C1R3').value)
+            state[2][0] = parseInt(document.getElementById('C2R0').value)
+            state[2][1] = parseInt(document.getElementById('C2R1').value)
+            state[2][2] = parseInt(document.getElementById('C2R2').value)
+            state[2][3] = parseInt(document.getElementById('C2R3').value)
+            state[3][0] = parseInt(document.getElementById('C3R0').value)
+            state[3][1] = parseInt(document.getElementById('C3R1').value)
+            state[3][2] = parseInt(document.getElementById('C3R2').value)
+            state[3][3] = parseInt(document.getElementById('C3R3').value)
+
+            return state
+        }
+
+        function gmul(a, b) {
+            var p = 0;
+            for (var counter = 0; counter < 8; counter++) {
+                if ((b & 1) != 0) {
+                    p = p ^ a
+                }
+
+                var hi_bit_set = (a & 0x80) != 0
+                a = a << 1
+                if (hi_bit_set) {
+                    a = a ^ 0x1B
+                }
+                b = b >> 1
+            }
+            return p;
+        }
+
+        function mixOne(a) {
+            var res = []
+
+            res[0] = gmul(a[0],2) ^ gmul(a[3],1) ^ gmul(a[2],1) ^ gmul(a[1],3);
+            res[1] = gmul(a[1],2) ^ gmul(a[0],1) ^ gmul(a[3],1) ^ gmul(a[2],3);
+            res[2] = gmul(a[2],2) ^ gmul(a[1],1) ^ gmul(a[0],1) ^ gmul(a[3],3);
+            res[3] = gmul(a[3],2) ^ gmul(a[2],1) ^ gmul(a[1],1) ^ gmul(a[0],3);
+
+            return res
+        }
+
+        function mixCol(state) {
+            var res = [[], [], [], []]
+            for (var x = 0; x < 4; x++) {
+                res[x] = mixOne(state[x])
+            }
+            return res
+        }
+
+        function colsToText(state) {
+            var res = ""
+            for (var x = 0; x < 4; x++) {
+                for (var y = 0; y < 4; y++) {
+                    res += "0x" + state[y][x].toString(16) + " "
+                }
+                res += "\n"
+            }
+            return res
+        }
+
+        window.setInterval(function () {
+            var state = getInput()
+
+            var col = mixCol(state)
+            var text = colsToText(col)
+            document.getElementById('output').innerText = text
+        }, 100);
+    </script>
+</body>
+
+</html>
