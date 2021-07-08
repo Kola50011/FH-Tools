@@ -1,10 +1,13 @@
 <html>
-<title>Zyklische Gruppenordnung</title>
+    <head>
+        <title>Zyklische Gruppenordnung</title>
+        <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
+    </head>
 
 <body>
-    <h1>Zyklische Gruppenordnung für Primzahlen</h1>
+    <h1>Zyklische Gruppenordnung für Z* (Multiplikation)</h1>
     <div>
-        <input id="zstern" type="number" placeholder="Enter a prime Z*" style="width: 30%;" min="2" max="15" required>
+        <input id="zstern" type="number" placeholder="Enter a number Z* between 2 and 15" style="width: 30%;" min="2" max="15" required>
         <button onclick="generateTable()">Berechnen</button>
     </div>
     <div id="output"></div>
@@ -18,6 +21,7 @@
         text-align: center;
     }
 </style>
+<script src="https://unpkg.com/mathjs@9.4.4/"></script>
 <script>
     function generateTable() {
         var zstern = document.getElementById("zstern").value;
@@ -29,24 +33,35 @@
             document.getElementById("output").innerText = "Zahl muss in der Range (2, 15) sein";
             return;
         }
-        if (isPrime(zstern)) {
+
+        const possibleItems = [];
+
+        for(let i = 1; i < zstern; i++){
+            possibleItems.push(i);
+        }
+        
+        const items = createRestList(possibleItems, zstern);
+
+        console.log("rest class: ", items);
+
+            outputResult += `<h3>In Z${zstern}* enthalten: [${items.join(",")}]<h3/>`
+
             outputResult += "<tr>"
-            for (var th = 1; th < zstern; th++) {
+            for (var th = 1; th <= items.length; th++) {
                 outputResult += "<th>";
-                outputResult += "a^"
-                outputResult += th;
+                outputResult += th !== 1 ? `a^${th}` : "a";
                 outputResult += "</th>";
             }
             outputResult += "<th>Ordnung</th>"
             outputResult += "<th>erzeugte Untergruppe</th>";
             outputResult += "</tr>";
 
-            for (var i = 1; i < zstern; i++) {
+            items.forEach( item  => {
                 var resultArr = new Array();
                 outputResult += "<tr>";
-                for (var j = 1; j < zstern; j++) {
+                for (var j = 1; j <= items.length; j++) {
                     outputResult += "<td>";
-                    var restval = (Math.pow(i, j) % zstern);
+                    var restval = (Math.pow(item, j) % zstern);
                     if (!resultArr.includes(restval))
                         resultArr.push(restval);
                     outputResult += restval;
@@ -56,23 +71,24 @@
                 outputResult += resultArr.length;
                 outputResult += "</td>";
                 outputResult += "<td>";
-                if(resultArr.length == zstern-1) {
-                    generatoren.push(i);
+                if(resultArr.length == items.length) {
+                    generatoren.push(item);
                 }
                 outputResult += resultArr.sort(function(a, b){return a-b});
                 outputResult += "</td>";
                 outputResult += "</tr>";
-            }
+            })
             outputResult += "</table>";
             outputResult += "<p>";
             outputResult += "Generatoren: ";
-            outputResult += generatoren.sort(function(a, b){return a-b});
+            outputResult += generatoren.length != 0? generatoren.sort(function(a, b){return a-b}): "Nicht Zyklisch!";
             outputResult += "</p>";
             document.getElementById("output").innerHTML = outputResult;
-        }
-        else {
-            document.getElementById("output").innerText = "Must be a prime number";
-        }
+        
+    }
+
+    const createRestList = (array, groupSize) => {
+        return array.filter(item => math.gcd(item, groupSize) == 1);
     }
 
     isPrime = function (n) {
