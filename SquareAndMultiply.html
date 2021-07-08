@@ -1,0 +1,41 @@
+<html>
+
+<head>
+    <title>Square and Multiply</title>
+</head>
+
+<body>
+    <h1>Square and Multiply</h1>
+    <div>
+        <form onsubmit="event.preventDefault();squareAndMultiply()">
+            <input id="numInput" type="number" placeholder="Enter a number higher than 1" style="width: 30%;"
+                min="1" required>
+            <button>Berechnen</button>
+        </form>
+    </div>
+    <div id="output"></div>
+</body>
+<script>
+    function squareAndMultiply() {
+        var number = Number.parseInt(document.getElementById("numInput").value);
+        var binaryNumber = number.toString(2);
+
+        var result = "X";
+
+        var arrayOfNumbers = binaryNumber.split('');
+        for (var i = 1; i < arrayOfNumbers.length; i++)
+        {
+            console.log(i);
+            if (arrayOfNumbers[i] == "0") {
+                result = "(" + result + ")²";
+            }
+            if (arrayOfNumbers[i] == "1")
+            {
+                result = "(" + result + ")²*X";
+            }
+        }
+        document.getElementById("output").innerText = result;
+    }
+</script>
+
+</html>
