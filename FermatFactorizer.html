@@ -39,7 +39,7 @@
         const htmlElements = htmlElementsArr.join("");
 
         const stepsHeader = "<h4>Rechenschritte:</h4>";
-        const resultText = `<h3>Ergebnis: a=${a}, b=${b}, p = ${a-b}, q = ${a+b}</h3>`;
+        const resultText = `<h3>Ergebnis: a=${a}, b=${b}, p = ${a+b}, q = ${a-b}</h3>`;
 
         document.getElementById("output").innerHTML = stepsHeader + htmlElements + resultText;
         MathJax.typeset();
